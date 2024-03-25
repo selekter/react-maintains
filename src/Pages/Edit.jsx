@@ -21,6 +21,12 @@ const Edit = () => {
     setMaintains(newMaintains);
   };
 
+  const removeRepairInput = (index) => {
+    const newRepair = [...maintains];
+    newRepair.splice(index, 1);
+    setMaintains(newRepair);
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       const docRef = doc(db, "maintain", id);
@@ -60,12 +66,19 @@ const Edit = () => {
             readOnly
           />
           {maintains?.map((maintain, index) => (
-            <div key={index} className="flex flex-col my-2">
+            <div key={index} className="flex flex-row gap-2 my-2">
               <input
-                className="border border-blue-500 p-2 rounded focus:border-blue-700 outline-none"
+                className="border border-blue-500 p-2 rounded focus:border-blue-700 outline-none w-full"
                 value={maintain.repair}
                 onChange={(e) => handleMaintainsChange(index, e.target.value)}
               />
+              <Button
+                type="button"
+                className="bg-red-500 text-white px-5 md:px-10"
+                onClick={() => removeRepairInput(index)}
+              >
+                ลบ
+              </Button>
             </div>
           ))}
           <div className="flex flex-col md:flex-row gap-2">

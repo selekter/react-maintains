@@ -70,12 +70,12 @@ function Home() {
   };
 
   //! ลบการแจ้งซ่อม
-  const deleteMaintain = async (index, id) => {
+  const deleteMaintain = async (index, id, license_plate) => {
     setLoading(true);
     try {
       Swal.fire({
         title: "ลบการแจ้งซ่อม",
-        text: "คุณต้องการที่จะลบการแจ้งซ่อมนี้ใช่ไหม ?",
+        text: `คุณต้องการที่จะลบการแจ้งซ่อมนี้ใช่ไหม ? ${license_plate}`,
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
@@ -128,6 +128,14 @@ function Home() {
           </div>
         </div>
       )}
+      <div className="p-5 flex justify-center">
+        <input
+          type="text"
+          placeholder="Search..."
+          className="p-2 bg-neutral-200 rounded w-full md:max-w-md"
+          onChange={(e) => inputSearch(e.target.value)}
+        />
+      </div>
       <div className="p-2">
         <table className="table-auto w-full text-center shadow">
           <thead className="bg-blue-300">
@@ -160,7 +168,9 @@ function Home() {
                           </Link>
                           <Button
                             className="bg-red-500 hover:bg-red-700 text-white"
-                            onClick={() => deleteMaintain(i, data.id)}
+                            onClick={() =>
+                              deleteMaintain(i, data.id, data.license_plate)
+                            }
                           >
                             Delete
                           </Button>
@@ -190,7 +200,9 @@ function Home() {
                           </Link>
                           <Button
                             className="bg-red-500 hover:bg-red-700 text-white"
-                            onClick={() => deleteMaintain(i, data.id)}
+                            onClick={() =>
+                              deleteMaintain(i, data.id, data.license_plate)
+                            }
                           >
                             Delete
                           </Button>
@@ -205,12 +217,6 @@ function Home() {
 
       {checkLogin && (
         <div className="mx-2 flex flex-col md:flex-row gap-2">
-          <input
-            type="text"
-            placeholder="Search..."
-            className="p-2 bg-neutral-200 rounded"
-            onChange={(e) => inputSearch(e.target.value)}
-          />
           <Button
             type="button"
             className="bg-blue-500 hover:bg-blue-700 text-white hover:shadow-blue-500"
