@@ -2,7 +2,7 @@
 import { doc, getDoc, updateDoc } from "firebase/firestore/lite";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { db } from "../firebase";
+import { auth, db } from "../firebase";
 import Button from "../Components/Button";
 
 const Edit = () => {
@@ -27,7 +27,16 @@ const Edit = () => {
     setMaintains(newRepair);
   };
 
+  const backToHome = () => {
+    navigate(-1);
+  };
+
   useEffect(() => {
+    const user = auth.currentUser;
+    if (!user) {
+      console.log("Error");
+      navigate("/");
+    }
     const fetchData = async () => {
       const docRef = doc(db, "maintain", id);
       const docSnap = await getDoc(docRef);
@@ -86,20 +95,20 @@ const Edit = () => {
               type="submit"
               className="bg-blue-500 hover:bg-blue-600 text-white"
             >
-              Submit
+              บันทึกข้อมูล
             </Button>
             <Button
               onClick={addMaintain}
               className="bg-yellow-400 hover:bg-yellow-600"
             >
-              Add input
+              เพิ่มการแจ้งซ่อม
             </Button>
-            <Link
-              to="/"
-              className="py-2 px-2 md:px-5 rounded text-white text-center shadow-lg transition duration-300 bg-green-500 hover:bg-green-600"
+            <Button
+              onClick={backToHome}
+              className="text-white bg-green-500 hover:bg-green-600"
             >
-              Back to home
-            </Link>
+              กลับไปหน้าหลัก
+            </Button>
           </div>
         </form>
       </div>

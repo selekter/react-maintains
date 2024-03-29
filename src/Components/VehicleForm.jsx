@@ -4,7 +4,6 @@ import { addDoc, collection } from "firebase/firestore/lite";
 import { db } from "../firebase";
 import Swal from "sweetalert2";
 
-// eslint-disable-next-line react/prop-types
 function VehicleForm({ onSubmit }) {
   const [licensePlate, setLicensePlate] = useState("");
   const [maintains, setMaintains] = useState([{ repair: "" }]);
