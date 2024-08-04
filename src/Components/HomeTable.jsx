@@ -176,10 +176,10 @@ function HomeTable(props) {
 									</td>
 									{props.checkLogin && (
 										<td className="border">
-											<div className="flex flex-col md:flex-row justify-center md:gap-2">
+											<div className="flex flex-col md:flex-row justify-center gap-2">
 												<Link
 													to={`edit/${data.id}`}
-													className="py-2 px-2 md:px-5 md:rounded shadow-lg transition duration-300 bg-yellow-500 hover:bg-yellow-700"
+													className="py-2 px-2 md:px-5 rounded-md md:rounded shadow-lg transition duration-300 bg-yellow-500 hover:bg-yellow-700"
 												>
 													Edit
 												</Link>
