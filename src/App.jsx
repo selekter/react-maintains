@@ -5,7 +5,12 @@ import Edit from "./Pages/Edit";
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter
+      future={{
+        v7_relativeSplatPath:true,
+        v7_startTransition:true,
+      }}
+    >
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />

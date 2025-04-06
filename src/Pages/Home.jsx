@@ -33,7 +33,9 @@ function Home() {
 	//! เพิ่มข้อมูลไปยัง Firebase
 	const addMaintain = () => {
 		setIsModalOpen(false);
-		fetchPost();
+		// fetchPost();
+		// checkLogin;
+		window.location.reload();
 	};
 
 	useEffect(() => {
