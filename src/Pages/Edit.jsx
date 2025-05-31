@@ -11,6 +11,8 @@ const Edit = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
+  console.log(maintains);
+
   const addMaintain = () => {
     setMaintains([...maintains, { repair: "" }]);
   };
@@ -43,7 +45,11 @@ const Edit = () => {
 
       if (docSnap.exists()) {
         setData(docSnap.data());
-        setMaintains(docSnap.data().maintains);
+        setMaintains(
+          docSnap
+            .data()
+            .maintains.sort((a, b) => a.repair.localeCompare(b.repair))
+        );
       } else {
         console.log("No such document!");
       }
@@ -69,24 +75,22 @@ const Edit = () => {
         <form onSubmit={handleSubmit}>
           <p>License Plate</p>
           <p>{data.license_plate}</p>
-          {maintains
-            ?.sort((a, b) => a.repair.localeCompare(b.repair))
-            ?.map((maintain, index) => (
-              <div key={index} className="flex flex-row gap-2 my-2">
-                <input
-                  className="border border-blue-500 p-2 rounded focus:border-blue-700 outline-none w-full shadow-lg"
-                  value={maintain.repair}
-                  onChange={(e) => handleMaintainsChange(index, e.target.value)}
-                />
-                <Button
-                  type="button"
-                  className="bg-red-500 text-white px-5 md:px-10"
-                  onClick={() => removeRepairInput(index)}
-                >
-                  ลบ
-                </Button>
-              </div>
-            ))}
+          {maintains?.map((maintain, index) => (
+            <div key={index} className="flex flex-row gap-2 my-2">
+              <input
+                className="border border-blue-500 p-2 rounded focus:border-blue-700 outline-none w-full shadow-lg"
+                value={maintain.repair}
+                onChange={(e) => handleMaintainsChange(index, e.target.value)}
+              />
+              <Button
+                type="button"
+                className="bg-red-500 text-white px-5 md:px-10"
+                onClick={() => removeRepairInput(index)}
+              >
+                ลบ
+              </Button>
+            </div>
+          ))}
           <div className="flex flex-col md:flex-row gap-2">
             <Button
               type="submit"
