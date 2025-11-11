@@ -2,7 +2,7 @@ import AppLayout from '../Layouts/AppLayout';
 // import Swal from 'sweetalert2';
 
 // Import the functions you need from the SDKs you need
-import { auth, db } from '../firebase.js';
+import { auth } from '../firebase.js';
 import { useEffect, useState } from 'react';
 import Button from '../Components/Button.js';
 import Modal from '../Components/Modal.js';
@@ -33,8 +33,6 @@ function Home() {
 	//! เพิ่มข้อมูลไปยัง Firebase
 	const addMaintain = () => {
 		setIsModalOpen(false);
-		// fetchPost();
-		// checkLogin;
 		window.location.reload();
 	};
 

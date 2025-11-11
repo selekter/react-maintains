@@ -21,6 +21,7 @@ const Edit = () => {
 
   console.log(maintains);
 
+
   const addMaintain = () => {
     setMaintains([...maintains, { repair: "" }]);
   };
@@ -44,7 +45,7 @@ const Edit = () => {
   useEffect(() => {
     const user = auth.currentUser;
     if (!user) {
-      console.log("Error");
+      console.error("Error");
       navigate("/");
       return;
     }
@@ -56,19 +57,24 @@ const Edit = () => {
     }
 
     const fetchData = async () => {
-      const docRef = doc(db, "maintain", id);
-      const docSnap = await getDoc(docRef);
+      try {
+        const docRef = doc(db, "maintain", id);
+        const docSnap = await getDoc(docRef);
 
-      if (docSnap.exists()) {
-        const docData = docSnap.data() as DocumentDataProps;
-        setData(docData);
+        if (docSnap.exists()) {
+          const docData = docSnap.data() as DocumentDataProps;
+          setData(docData);
 
-        setMaintains(
-          docData.maintains.sort((a, b) => a.repair.localeCompare(b.repair))
-        );
-      } else {
-        console.log("No such document!");
+          setMaintains(
+            docData.maintains.sort((a, b) => a.repair.localeCompare(b.repair))
+          );
+        } else {
+          console.log("No such document!");
+        }
+      } catch (err) {
+        console.error(err);
       }
+
     };
     fetchData();
   }, [id, navigate]);

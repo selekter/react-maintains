@@ -13,7 +13,7 @@ interface MaintainItem {
 }
 
 function VehicleForm({ onSubmit }: VehicleFormProps) {
-	const [licensePlate, setLicensePlate] = useState<string>('');
+	const [list, setList] = useState<string>('');
 	const [maintains, setMaintains] = useState<MaintainItem[]>([{ repair: '' }]);
 
 	const handleMaintainChange = (index: number, value: string) => {
@@ -29,7 +29,7 @@ function VehicleForm({ onSubmit }: VehicleFormProps) {
 
 	//! ลบข้อมูลฟอร์ม
 	const resetForm = () => {
-		setLicensePlate('');
+		setList('');
 		setMaintains([{ repair: '' }]);
 	};
 
@@ -45,17 +45,17 @@ function VehicleForm({ onSubmit }: VehicleFormProps) {
 
 		try {
 			await addDoc(collection(db, 'maintain'), {
-				license_plate: licensePlate,
+				list: list,
 				maintains: maintains,
 			});
 			Swal.fire({
 				title: 'บันทึกข้อมูลเรียบร้อย',
 				icon: 'success',
 			});
-		} catch (e) {
-			console.error('Error adding document: ', e);
+		} catch (err) {
+			console.error('Error adding document: ', err);
 		}
-		setLicensePlate('');
+		setList('');
 		setMaintains([{ repair: '' }]);
 		onSubmit();
 	};
@@ -69,11 +69,11 @@ function VehicleForm({ onSubmit }: VehicleFormProps) {
 				<input
 					type="text"
 					className="p-2 rounded w-full border border-sky-500 shadow-lg"
-					value={licensePlate}
+					value={list}
 					id="list"
 					placeholder="License Plate"
 					required
-					onChange={(e) => setLicensePlate(e.target.value)}
+					onChange={(e) => setList(e.target.value)}
 				/>
 				<label htmlFor="licensePlate" className="text-xl font-bold">
 					License Plate

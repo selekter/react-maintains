@@ -11,7 +11,7 @@ interface RepairItem {
 
 interface RepairsProps {
   id: string;
-  license_plate: string;
+  list: string;
   maintains: RepairItem[];
 }
 
@@ -25,10 +25,11 @@ function HomeTable({ checkLogin }: HomeTableProps) {
   const [search, setSearch] = useState<string>("");
   const [filterRepairs, setFilterRepairs] = useState<RepairsProps[]>([]);
 
+  //! ค้นหารายการ
   const inputSearch = (searchValue: string) => {
     setSearch(searchValue);
     const filterSearch = repairs.filter((person) =>
-      person.license_plate.toLowerCase().includes(searchValue.toLowerCase())
+      person.list.toLowerCase().includes(searchValue.toLowerCase())
     );
     setFilterRepairs(filterSearch);
   };
@@ -43,8 +44,8 @@ function HomeTable({ checkLogin }: HomeTableProps) {
         ...(doc.data() as Omit<RepairsProps, "id">),
       }));
       setRepairs(newData);
-    } catch (error) {
-      console.error("Error fetching data:", error);
+    } catch (err) {
+      console.error("Error fetching data:", err);
     } finally {
       setLoading(false);
     }
@@ -74,8 +75,8 @@ function HomeTable({ checkLogin }: HomeTableProps) {
           icon: "success",
         });
       }
-    } catch (error) {
-      console.error(error);
+    } catch (err) {
+      console.error(err);
       throw new Error("Failed to Delete");
     } finally {
       setLoading(false);
@@ -114,7 +115,8 @@ function HomeTable({ checkLogin }: HomeTableProps) {
         <input
           type="text"
           placeholder="Search..."
-          className="p-2 bg-neutral-200 rounded w-full md:max-w-md shadow-lg transition duration-300 ease-in-out border border-sky-500 focus:border-blue-500 focus:outline-none focus:ring-sky-500 focus:ring-1"
+          name="search"
+          className="p-2 bg-white rounded w-full md:max-w-md shadow transition duration-300 ease-in-out border border-sky-500 focus:border-blue-500 focus:outline-none focus:ring-sky-500 focus:ring-1"
           onChange={(e) => inputSearch(e.target.value)}
         />
       </div>
@@ -132,7 +134,7 @@ function HomeTable({ checkLogin }: HomeTableProps) {
           {search
             ? filterRepairs.map((data, i) => (
               <tr key={i}>
-                <td className="border p-4">{data.license_plate}</td>
+                <td className="border p-4">{data.list}</td>
                 <td className="border">
                   <ol className="list-disc list-inside">
                     {data?.maintains?.map((data_maintain, i) => (
@@ -152,7 +154,7 @@ function HomeTable({ checkLogin }: HomeTableProps) {
                       <Button
                         className="bg-red-500 hover:bg-red-700 text-white"
                         onClick={() =>
-                          deleteMaintain(i, data.id, data.license_plate)
+                          deleteMaintain(i, data.id, data.list)
                         }
                       >
                         Delete
@@ -164,15 +166,15 @@ function HomeTable({ checkLogin }: HomeTableProps) {
             ))
             : repairs?.map((data, i) => (
               <tr key={i}>
-                <td className="border p-4">{data.license_plate}</td>
-                <td className="border">
-                  <ol className="list-disc list-inside">
+                <td className="border p-4">{data.list}</td>
+                <td className="border min-w-28">
+                  <ul>
                     {data?.maintains
                       .sort((a, b) => a.repair.localeCompare(b.repair))
                       ?.map((data_maintain, i) => (
                         <li key={i}>{data_maintain.repair}</li>
                       ))}
-                  </ol>
+                  </ul>
                 </td>
                 {checkLogin && (
                   <td className="border">
@@ -186,7 +188,7 @@ function HomeTable({ checkLogin }: HomeTableProps) {
                       <Button
                         className="bg-red-500 hover:bg-red-700 text-white"
                         onClick={() =>
-                          deleteMaintain(i, data.id, data.license_plate)
+                          deleteMaintain(i, data.id, data.list)
                         }
                       >
                         Delete

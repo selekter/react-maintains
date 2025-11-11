@@ -3,37 +3,62 @@ import { useRef, useState } from "react";
 import { auth } from "../firebase.js";
 import { useNavigate } from "react-router-dom";
 import Button from "../Components/Button.js";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
+
+interface FormLoginProps {
+  email: string;
+  password: string;
+}
 
 function Login() {
-  const [email, setEmail] = useState("");
-  const emailRef = useRef<HTMLInputElement>(null);
-  const [password, setPassword] = useState("");
+  const [formLogin, setFormLogin] = useState<FormLoginProps>({
+    email: "",
+    password: "",
+  })
+  const { executeRecaptcha } = useGoogleReCaptcha();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+  const passwordRef = useRef<HTMLInputElement>(null);
 
   const navigate = useNavigate();
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormLogin((prevData) => ({
+      ...prevData,
+      [name]: value
+    }))
+  }
+
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!executeRecaptcha) {
+      console.error("Recaptcha not ready");
+      return;
+    }
     setError(false)
     setLoading(true);
 
+    const token = await executeRecaptcha("login");
+
+    if (!token) {
+      console.error("Failed to get reCAPTCHA token");
+      setLoading(false);
+      return;
+    }
+
     try {
-      signInWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-          // const user = userCredential.user;
-          navigate("/");
-        })
-        .catch((error) => {
-          console.error("Firebase Login Error:", error);
-          setError(true);
-          if (emailRef.current) {
-            emailRef.current.focus();
-          }
-          setPassword("");
-        });
-    } catch (error) {
-      console.log("Error:", error);
+      await signInWithEmailAndPassword(auth, formLogin.email, formLogin.password)
+      navigate("/");
+    } catch (err) {
+      console.error("Firebase Login Error:", err);
+
+      setError(true);
+      setFormLogin({ ...formLogin, password: "" });
+
+      if (passwordRef.current) {
+        passwordRef.current.focus();
+      }
     }
     setLoading(false);
   };
@@ -47,10 +72,10 @@ function Login() {
                 Email:
                 <input
                   type="email"
+                  name="email"
                   className="border border-neutral-200 rounded w-full py-2 px-3"
-                  ref={emailRef}
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  value={formLogin.email}
+                  onChange={handleChange}
                   required
                   placeholder="Enter Email"
                 />
@@ -61,9 +86,11 @@ function Login() {
                 Password:
                 <input
                   type="password"
+                  name="password"
                   className="border border-neutral-200 rounded w-full py-2 px-3"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  ref={passwordRef}
+                  value={formLogin.password}
+                  onChange={handleChange}
                   required
                   placeholder="Enter Password"
                 />
@@ -79,7 +106,7 @@ function Login() {
               className="bg-blue-500 text-white mt-3"
               disabled={loading}
             >
-              Login
+              {loading ? "Loading..." : "Login"}
             </Button>
           </form>
         </div>
