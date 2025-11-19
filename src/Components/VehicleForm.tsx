@@ -103,18 +103,18 @@ function VehicleForm({ onSubmit }: VehicleFormProps) {
 					</div>
 				))}
 				<div className="flex flex-col md:flex-row gap-2">
-					<Button type="submit" className="bg-blue-500 text-white">
+					<Button type="submit" className="bg-blue-500 hover:bg-blue-800 text-white">
 						บันทึกข้อมูล
 					</Button>
 					<Button
-						className="bg-yellow-400"
+						className="bg-yellow-400 hover:bg-yellow-600"
 						onClick={addMaintainInput}
 					>
 						เพิ่มการแจ้งซ่อม
 					</Button>
 					<Button
 						onClick={resetForm}
-						className="bg-red-500 text-white"
+						className="bg-red-500 hover:bg-red-800 text-white"
 					>
 						Reset
 					</Button>

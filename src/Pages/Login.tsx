@@ -1,7 +1,7 @@
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useRef, useState } from "react";
 import { auth } from "../firebase.js";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import Button from "../Components/Button.js";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 
@@ -14,7 +14,7 @@ function Login() {
   const [formLogin, setFormLogin] = useState<FormLoginProps>({
     email: "",
     password: "",
-  })
+  });
   const { executeRecaptcha } = useGoogleReCaptcha();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
@@ -26,9 +26,9 @@ function Login() {
     const { name, value } = e.target;
     setFormLogin((prevData) => ({
       ...prevData,
-      [name]: value
-    }))
-  }
+      [name]: value,
+    }));
+  };
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -36,7 +36,7 @@ function Login() {
       console.error("Recaptcha not ready");
       return;
     }
-    setError(false)
+    setError(false);
     setLoading(true);
 
     const token = await executeRecaptcha("login");
@@ -48,7 +48,11 @@ function Login() {
     }
 
     try {
-      await signInWithEmailAndPassword(auth, formLogin.email, formLogin.password)
+      await signInWithEmailAndPassword(
+        auth,
+        formLogin.email,
+        formLogin.password,
+      );
       navigate("/");
     } catch (err) {
       console.error("Firebase Login Error:", err);

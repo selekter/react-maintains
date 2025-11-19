@@ -1,6 +1,6 @@
 import { doc, getDoc, updateDoc } from "firebase/firestore/lite";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router";
 import { auth, db } from "../firebase.js";
 import Button from "../Components/Button.js";
 
@@ -20,7 +20,6 @@ const Edit = () => {
   const navigate = useNavigate();
 
   console.log(maintains);
-
 
   const addMaintain = () => {
     setMaintains([...maintains, { repair: "" }]);
@@ -66,7 +65,7 @@ const Edit = () => {
           setData(docData);
 
           setMaintains(
-            docData.maintains.sort((a, b) => a.repair.localeCompare(b.repair))
+            docData.maintains.sort((a, b) => a.repair.localeCompare(b.repair)),
           );
         } else {
           console.log("No such document!");
@@ -74,7 +73,6 @@ const Edit = () => {
       } catch (err) {
         console.error(err);
       }
-
     };
     fetchData();
   }, [id, navigate]);
@@ -94,7 +92,7 @@ const Edit = () => {
   };
 
   if (!data) {
-    return <div className="p-4 text-center text-xl">กำลังโหลดข้อมูล...</div>
+    return <div className="p-4 text-center text-xl">กำลังโหลดข้อมูล...</div>;
   }
   return (
     <div className="p-2">
