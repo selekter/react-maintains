@@ -2,13 +2,14 @@ import AppLayout from '../Layouts/AppLayout';
 // import Swal from 'sweetalert2';
 
 // Import the functions you need from the SDKs you need
-import { auth } from '../firebase.js';
-import { useEffect, useState } from 'react';
+import { auth } from '../../firebase.js';
+import { Suspense, useEffect, useState } from 'react';
 import Button from '../Components/Button.js';
 import Modal from '../Components/Modal.js';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import VehicleForm from '../Components/VehicleForm.js';
 import HomeTable from '../Components/HomeTable.js';
+import TableSkeleton from '../Components/TableSkeleton';
 
 function Home() {
 	const [isModalOpen, setIsModalOpen] = useState(false);
@@ -47,10 +48,12 @@ function Home() {
 	}, []);
 
 	return (
-		<AppLayout>
+		<>
 			<div className="p-2">
-				<HomeTable checkLogin={checkLogin} />
-			</div>
+				<Suspense fallback={<TableSkeleton />}>
+					<HomeTable checkLogin={checkLogin} />
+				</Suspense>
+			</div >
 
 			{checkLogin && (
 				<div className="mx-2 flex flex-col md:flex-row gap-2 mb-3">
@@ -69,12 +72,13 @@ function Home() {
 						Logout
 					</Button>
 				</div>
-			)}
+			)
+			}
 
 			<Modal isOpen={isModalOpen} onClose={closeModal}>
 				<VehicleForm onSubmit={addMaintain} />
 			</Modal>
-		</AppLayout>
+		</>
 	);
 }
 

@@ -1,11 +1,12 @@
 import { doc, getDoc, updateDoc } from "firebase/firestore/lite";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
-import { auth, db } from "../firebase.js";
+import { auth, db } from "../../firebase.js";
 import Button from "../Components/Button.js";
 
 interface MaintainProps {
   repair: string;
+  isNew?: boolean;
 }
 
 interface DocumentDataProps {
@@ -19,15 +20,13 @@ const Edit = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
-  console.log(maintains);
-
   const addMaintain = () => {
-    setMaintains([...maintains, { repair: "" }]);
+    setMaintains([...maintains, { repair: "", isNew: true }]);
   };
 
   const handleMaintainsChange = (index: number, value: string) => {
     const newMaintains = [...maintains];
-    newMaintains[index] = { repair: value };
+    newMaintains[index] = { ...newMaintains[index], repair: value };
     setMaintains(newMaintains);
   };
 
@@ -65,7 +64,9 @@ const Edit = () => {
           setData(docData);
 
           setMaintains(
-            docData.maintains.sort((a, b) => a.repair.localeCompare(b.repair)),
+            docData.maintains
+              .sort((a, b) => a.repair.localeCompare(b.repair))
+              .map((m) => ({ ...m, isNew: false })),
           );
         } else {
           console.log("No such document!");
@@ -106,6 +107,7 @@ const Edit = () => {
                 className="border border-blue-500 p-2 rounded focus:border-blue-700 outline-none w-full shadow-lg"
                 value={maintain.repair}
                 onChange={(e) => handleMaintainsChange(index, e.target.value)}
+                readOnly={!maintain.isNew}
               />
               <Button
                 type="button"

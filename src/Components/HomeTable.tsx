@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { db } from "../firebase.js";
+import { db } from "../../firebase.js";
 import { collection, deleteDoc, doc, getDocs } from "firebase/firestore/lite";
 import Button from "./Button.js";
 import Swal from "sweetalert2";
@@ -91,7 +91,7 @@ function HomeTable({ checkLogin }: HomeTableProps) {
     <>
       <section>
         {loading && (
-          <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 text-white">
+          <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-10 text-white">
             <div className="flex flex-col items-center">
               <div className="animate-spin h-10 w-10 border-4 border-white border-t-transparent rounded-full mb-2"></div>
               <p>กำลังโหลด...</p>
@@ -112,17 +112,17 @@ function HomeTable({ checkLogin }: HomeTableProps) {
       </div>
       <table className="table-auto w-full text-center shadow">
         <thead className="bg-blue-300">
-          <tr>
-            <th className="border text-xl p-4">รายการ</th>
-            <th className="border text-xl">ทะเบียน</th>
-            {checkLogin && <th className="border w-24 md:w-60">Action</th>}
+          <tr className="*:border *:border-neutral-300">
+            <th className="text-xl p-4">รายการ</th>
+            <th className="text-xl">ทะเบียน</th>
+            {checkLogin && <th className="w-24 md:w-60">Action</th>}
           </tr>
         </thead>
         <tbody className="bg-white">
           {(search ? filterRepairs : repairs).map((data, i) => (
-            <tr key={i}>
-              <td className="border p-4">{data.list}</td>
-              <td className="border">
+            <tr key={i} className="*:border *:border-neutral-200">
+              <td className="p-4">{data.list}</td>
+              <td className="">
                 <ol className="list-disc list-inside">
                   {data?.maintains?.map((data_maintain, i) => (
                     <li key={i}>{data_maintain.repair}</li>
@@ -130,7 +130,7 @@ function HomeTable({ checkLogin }: HomeTableProps) {
                 </ol>
               </td>
               {checkLogin && (
-                <td className="border">
+                <td className="">
                   <div className="flex flex-col md:flex-row justify-center md:gap-2">
                     <Link
                       to={`edit/${data.id}`}

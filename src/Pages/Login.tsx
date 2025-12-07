@@ -1,6 +1,6 @@
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useRef, useState } from "react";
-import { auth } from "../firebase.js";
+import { auth } from "../../firebase.js";
 import { useNavigate } from "react-router";
 import Button from "../Components/Button.js";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";

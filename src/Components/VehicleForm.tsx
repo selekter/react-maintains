@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Button from './Button.js';
 import { addDoc, collection } from 'firebase/firestore/lite';
-import { db } from '../firebase.js';
+import { db } from '../../firebase.js';
 import Swal from 'sweetalert2';
 
 interface VehicleFormProps {

@@ -1,11 +1,12 @@
+import { Outlet } from "react-router";
 import Aside from "../Components/Aside";
 
-function AppLayout({ children }: { children: React.ReactNode }) {
+function AppLayout() {
   return (
     <>
       <div className="flex flex-col md:flex-row">
         <Aside />
-        <main className="w-full">{children}</main>
+        <main className="w-full"><Outlet /></main>
       </div>
     </>
   );

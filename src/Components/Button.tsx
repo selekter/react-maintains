@@ -17,7 +17,7 @@ function Button({
       {...props}
       type={type}
       className={
-        `py-2 px-2 md:px-5 rounded-md md:rounded shadow-lg transition duration-300 ${disabled && "opacity-25 "
+        `cursor-pointer py-2 px-2 md:px-5 rounded-md md:rounded shadow-lg transition duration-300 ${disabled && "opacity-25 "
         } ` + className
       }
       disabled={disabled}

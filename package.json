@@ -10,26 +10,26 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@tailwindcss/vite": "^4.1.17",
     "dotenv": "^17.2.3",
-    "firebase": "^11.10.0",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
+    "firebase": "^12.6.0",
+    "react": "19.2.1",
+    "react-dom": "19.2.1",
     "react-google-recaptcha-v3": "^1.11.0",
-    "react-router": "^7.9.6",
-    "sweetalert2": "^11.26.3"
+    "react-router": "^7.10.1",
+    "sweetalert2": "^11.26.4",
+    "tailwindcss": "^4.1.17"
   },
   "devDependencies": {
-    "@types/react": "^18.3.26",
-    "@types/react-dom": "^18.3.7",
-    "@vitejs/plugin-react": "^4.7.0",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^5.1.1",
     "autoprefixer": "^10.4.22",
     "eslint": "^9.39.1",
     "eslint-plugin-react": "^7.37.5",
-    "eslint-plugin-react-hooks": "^4.6.2",
+    "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.24",
-    "postcss": "^8.5.6",
-    "tailwindcss": "^3.4.18",
     "typescript": "^5.9.3",
-    "vite": "^6.4.1"
+    "vite": "^7.2.6"
   }
 }

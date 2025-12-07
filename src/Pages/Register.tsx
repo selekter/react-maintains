@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Button from "../Components/Button.js";
-import { auth } from "../firebase.js";
+import { auth } from "../../firebase.js";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 
 function Register() {

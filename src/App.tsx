@@ -4,6 +4,7 @@ import Login from "./Pages/Login";
 import Edit from "./Pages/Edit";
 import { Suspense } from "react";
 import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
+import AppLayout from "./Layouts/AppLayout";
 
 function App() {
   return (
@@ -16,9 +17,11 @@ function App() {
       <Suspense fallback={<div>Loading...</div>}>
         <GoogleReCaptchaProvider reCaptchaKey={import.meta.env.VITE_RECAPTCHA_KEY}>
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route element={<AppLayout />}>
+              <Route path="/" element={<Home />} />
+              <Route path="/edit/:id" element={<Edit />} />
+            </Route>
             <Route path="/login" element={<Login />} />
-            <Route path="/edit/:id" element={<Edit />} />
           </Routes>
         </GoogleReCaptchaProvider>
       </Suspense>

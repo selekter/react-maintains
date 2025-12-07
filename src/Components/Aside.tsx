@@ -2,7 +2,7 @@ import AsideLink from "./AsideLink";
 
 export default function Aside() {
   return (
-    <aside className="md:min-h-screen bg-neutral-800 md:w-80">
+    <aside className="md:min-h-screen bg-neutral-800 md:w-80 z-50">
       <nav>
         <ul className="text-white">
           <li className="p-2">
